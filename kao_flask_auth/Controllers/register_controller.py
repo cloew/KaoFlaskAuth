@@ -9,18 +9,18 @@ def GetRegisterController(User, LoginController):
     class RegisterController(CreateController):
         """ Controller to register a user """
         
-        def __init__(self, recordValueProvider=None):
+        def __init__(self, toJson, recordValueProvider=None):
             """ Initialize the Register Controller """
+            self.loginController = LoginController(toJson)
             CreateController.__init__(self, User, None, recordValueProvider=recordValueProvider)
         
         def performWithJSON(self, json=None):
             """ Create a User record with the given credentials """
             try:
-                json['password'] = make_password(json['password'])
-                user = self.create(json)
-
-                login = LoginController()
-                return login.performWithJSON(json=json)
+                createKwargs = dict(json)
+                createKwargs['password'] = make_password(json['password'])
+                user = self.create(createKwargs)
+                return self.loginController.performWithJSON(json=json)
             except IntegrityError:
                 return Errors.EMAIL_IN_USE.toJSON()
     return RegisterController
