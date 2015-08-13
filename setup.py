@@ -5,5 +5,6 @@ setup(name='kao_flask_auth',
       description="",
       author='',
       author_email='',
-      packages=['kao_flask_auth'],
+      packages=['kao_flask_auth',
+                'kao_flask_auth.Controllers'],
      )

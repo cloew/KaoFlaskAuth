@@ -1,0 +1,5 @@
+from .auth_json_controller import GetAuthJsonController
+from .current_user_controller import GetCurrentUserController
+from .login_controller import GetLoginController
+from .register_controller import GetRegisterController
+from .update_user_controller import GetUpdateUserController
