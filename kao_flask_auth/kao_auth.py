@@ -8,9 +8,10 @@ from kao_decorators import proxy_for, lazy_property
 class KaoAuth:
     """ Helper class to use to generate the Auth funcitonality based on a provided User class """
     
-    def __init__(self, userCls):
+    def __init__(self, userCls, usernameField="username"):
         """ Initialize with the User Class to use """
         self.userCls = userCls
+        self.usernameField = usernameField
         self.userProxyCls = GetUserProxy(userCls)
         self.authRouteDecorator = AuthRouteDecorator(self.userProxyCls)
         
@@ -27,7 +28,7 @@ class KaoAuth:
     @lazy_property
     def LoginController(self):
         """ Return the Login Controller class for the User model """
-        return GetLoginController(self.userCls)
+        return GetLoginController(self.userCls, self.usernameField)
         
     @lazy_property
     def RegisterController(self):

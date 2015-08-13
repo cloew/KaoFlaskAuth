@@ -1,5 +1,5 @@
 import jwt
     
-def BuildToken(user):
+def BuildToken(user, usernameField):
     """ Build the token """
-    return str(jwt.encode({'id':user.id, 'email':user.email}, 'secret token'))
+    return str(jwt.encode({'id':user.id, usernameField:getattr(user, usernameField)}, 'secret token'))
