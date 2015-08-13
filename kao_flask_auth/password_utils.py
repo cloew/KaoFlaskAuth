@@ -7,7 +7,7 @@ def get_hexdigest(salt, raw_password):
     return sha1(data.encode('utf8')).hexdigest()
 
 def make_password(raw_password):
-    salt = get_hexdigest(random.random(), random.random())[:5]
+    salt = get_hexdigest(str(random.random()), str(random.random()))[:5]
     hsh = get_hexdigest(salt, raw_password)
     return '%s$%s' % (salt, hsh)
 
