@@ -13,6 +13,6 @@ def GetCurrentUserController(AuthJSONController):
         def performWithJSON(self, json=None, user=None):
             """ Convert the existing Word Lists to JSON """
             if user:
-                return {'user':toJson(user)}
+                return {'user':self.toJson(user)}
             return Errors.NO_USER.toJSON()
     return CurrentUserController
