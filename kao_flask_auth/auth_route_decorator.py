@@ -15,7 +15,7 @@ class AuthRouteDecorator:
         resp.status_code = 401
         return resp
         
-    def verifyToken(self):
+    def extractToken(self):
         """ Return the token and/or error """
         auth = request.headers.get('Authorization', None)
         if not auth:
@@ -35,19 +35,20 @@ class AuthRouteDecorator:
     def requires_auth(self, f):
         @wraps(f)
         def decorated(*args, **kwargs):
-            token, error = self.verifyToken()
+            token, error = self.extractToken()
             if error is not None:
                 return self.failAuthentication(error)
                 
             try:
-                payload = jwt.decode(token, 'secret token')
+                payload = jwt.decode(token.encode('utf-8'), 'secret token')
                 # payload = jwt.decode(
                     # token,
                     # base64.b64decode(env["AUTH0_CLIENT_SECRET"].replace("_","/").replace("-","+"))
                 # )
             # except jwt.ExpiredSignature:
                 # return authenticate({'code': 'token_expired', 'description': 'token is expired'})
-            except jwt.DecodeError:
+            except jwt.DecodeError as e:
+                print(e)
                 return self.failAuthentication({'code': 'token_invalid_signature', 'description': 'token signature is invalid'})
 
             # if payload['aud'] != env["AUTH0_CLIENT_ID"]:

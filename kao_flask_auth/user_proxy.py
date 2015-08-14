@@ -12,7 +12,7 @@ def GetUserProxy(UserCls):
         @lazy_property
         def user(self):
             """ Lazy load the user """
-            return User.query.filter_by(id=self.userInfo[u'id']).first()
+            return UserCls.query.filter_by(id=self.userInfo[u'id']).first()
             
         def exists(self):
             """ Return if the User record actually exists """
