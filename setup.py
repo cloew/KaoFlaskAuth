@@ -7,4 +7,5 @@ setup(name='kao_flask_auth',
       author_email='',
       packages=['kao_flask_auth',
                 'kao_flask_auth.Controllers'],
+      install_requires=['passlib']
      )
