@@ -1,5 +1,4 @@
 from .auth_route_decorator import AuthRouteDecorator
-from .user_proxy import GetUserProxy
 from .Controllers import GetAuthJsonController, GetCurrentUserController, GetLoginController, GetRegisterController, GetUpdateUserController
 
 from kao_decorators import proxy_for, lazy_property
