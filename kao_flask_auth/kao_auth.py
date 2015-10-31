@@ -12,8 +12,7 @@ class KaoAuth:
         """ Initialize with the User Class to use """
         self.userCls = userCls
         self.usernameField = usernameField
-        self.userProxyCls = GetUserProxy(userCls)
-        self.authRouteDecorator = AuthRouteDecorator(self.userProxyCls)
+        self.authRouteDecorator = AuthRouteDecorator(self.userCls)
         
     @lazy_property
     def JSONController(self):

@@ -1,1 +1,3 @@
+itsdangerous==0.24
 passlib==1.6.5
+Flask-HttpAuth==2.7.0
