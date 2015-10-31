@@ -2,6 +2,7 @@ from ..errors import Errors
 from ..password_utils import check_password
 from ..token_builder import BuildToken
 
+from flask import current_app as app
 from kao_flask import JSONController
 
 def GetLoginController(User, usernameField):
@@ -19,7 +20,7 @@ def GetLoginController(User, usernameField):
             filterKwargs = {usernameField: json[usernameField]}
             user = User.query.filter_by(**filterKwargs).first()
             if user and check_password(json['password'], user.password):
-                return {'token':BuildToken(user, usernameField), 'user':self.toJson(user)}, 201
+                return {'token':BuildToken(user, app.config['SECRET_KEY']), 'user':self.toJson(user)}, 201
             else:
                 return Errors.INVALID_CREDS.toJSON()
     return LoginController

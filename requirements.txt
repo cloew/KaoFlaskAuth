@@ -1,3 +1,4 @@
 itsdangerous==0.24
 passlib==1.6.5
-Flask-HttpAuth==2.7.0
+git+git://guthub.com/cloew/KaoDecorators
+git+git://guthub.com/cloew/KaoFlaskSQLAlchemy
