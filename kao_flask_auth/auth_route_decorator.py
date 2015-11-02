@@ -2,7 +2,6 @@ from .invalid_auth import InvalidAuth
 from .token_builder import VerifyToken, ExtractToken
 
 from flask import current_app as app, request, jsonify
-from flask.ext.httpauth import HTTPBasicAuth
 from functools import wraps
 
 def authenticate(error):
