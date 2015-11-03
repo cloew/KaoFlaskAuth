@@ -1,5 +1,6 @@
 from ..token_builder import BuildToken
 
+from flask import current_app as app
 from kao_flask.ext.sqlalchemy import UpdateController, RecordValueProvider
 
 def GetUpdateUserController(User, requires_auth):
@@ -17,5 +18,5 @@ def GetUpdateUserController(User, requires_auth):
             """ Remove the record """
             user = kwargs['user']
             updatedUser = UpdateController.update(self, user.id, kwargs['json'])
-            return {"token": BuildToken(updatedUser), "user": self.toJson(updatedUser)}
+            return {"token": BuildToken(updatedUser, app.config['SECRET_KEY']), "user": self.toJson(updatedUser)}
     return UpdateUserController
