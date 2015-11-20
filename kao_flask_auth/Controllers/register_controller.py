@@ -1,5 +1,5 @@
 from ..errors import Errors
-from ..password_utils import make_password
+from ..password_util import PasswordUtil
 
 from kao_flask.ext.sqlalchemy import CreateController
 from sqlalchemy.exc import IntegrityError
@@ -9,16 +9,17 @@ def GetRegisterController(User, LoginController):
     class RegisterController(CreateController):
         """ Controller to register a user """
         
-        def __init__(self, toJson, recordValueProvider=None):
+        def __init__(self, toJson, passwordUtil=None, recordValueProvider=None):
             """ Initialize the Register Controller """
-            self.loginController = LoginController(toJson)
+            self.passwordUtil = PasswordUtil() if passwordUtil is None else passwordUtil
+            self.loginController = LoginController(toJson, passwordUtil=passwordUtil)
             CreateController.__init__(self, User, None, recordValueProvider=recordValueProvider)
         
         def performWithJSON(self, json=None):
             """ Create a User record with the given credentials """
             try:
                 createKwargs = dict(json)
-                createKwargs['password'] = make_password(json['password'])
+                createKwargs['password'] = self.passwordUtil.make(json['password'])
                 user = self.create(createKwargs)
                 return self.loginController.performWithJSON(json=json)
             except IntegrityError:
