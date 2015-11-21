@@ -1,5 +1,5 @@
 from ..errors import Errors
-from ..password_util import PasswordUtil
+from ..password_scheme import PasswordScheme
 from ..token_builder import BuildToken
 
 from flask import current_app as app
@@ -11,11 +11,11 @@ def GetLoginController(User, usernameField):
     class LoginController(JSONController):
         """ Controller to login a user """
         
-        def __init__(self, toJson, passwordUtil=None, legacyUtils=[]):
+        def __init__(self, toJson, pwdScheme=None, legacySchemes=[]):
             """ Initialize with the mthod to convert to JSON """
             self.toJson = toJson
-            self.passwordUtil = PasswordUtil() if passwordUtil is None else passwordUtil
-            self.legacyUtils = legacyUtils
+            self.pwdScheme = PasswordScheme() if pwdScheme is None else pwdScheme
+            self.legacySchemes = legacySchemes
             JSONController.__init__(self)
         
         def performWithJSON(self, json=None):
@@ -30,14 +30,14 @@ def GetLoginController(User, usernameField):
         def validPassword(self, user, password):
             """ Return if the user's password is valid """
             try:
-                if self.passwordUtil.check(password, user.password):
+                if self.pwdScheme.check(password, user.password):
                     return True
             except ValueError:
                 pass
                 
-            for util in self.legacyUtils:
-                if util.check(password, user.password):
-                    user.password = self.passwordUtil.make(password)
+            for scheme in self.legacySchemes:
+                if scheme.check(password, user.password):
+                    user.password = self.pwdScheme.make(password)
                     db.session.add(user)
                     db.session.commit()
                     return True

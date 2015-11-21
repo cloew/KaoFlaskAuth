@@ -1,6 +1,6 @@
 from passlib.apps import custom_app_context
     
-class PasswordUtil:
+class PasswordScheme:
     """ Helper class to make and check passwords """
     
     def make(self, raw_password):

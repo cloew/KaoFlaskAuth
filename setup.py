@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='kao_flask_auth',
-      version='0.2.0',
+      version='0.2.1',
       description="",
       author='Chris Loew',
       author_email='cloew123@gmail.com',
